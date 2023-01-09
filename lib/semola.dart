@@ -39,7 +39,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 import 'dart:collection';
 import 'package:substitute/substitute.dart';
 
-// Semola base class
+/// Semola base class, meant to be used statically.
 class Semola {
   static final _spaces = RegExp(r'\s');
   static final HashMap<String, List<int>> _exceptions = HashMap();
@@ -164,6 +164,7 @@ class Semola {
     Substitute.fromSedExpr(r"s/-([^0-9a-zÀ-ÿ]*)$/\1/Ig"),
   ];
 
+  /// Returns the hyphanation points in the word (used to preserve the original case)
   static List<int> _getHyphenationPoints(String hyphenation) {
     List<int> positions = [];
     var dash = '-'.codeUnits.first;
@@ -177,6 +178,7 @@ class Semola {
     return positions;
   }
 
+  /// Internal method used to hyphenate a word and preserve the original case
   static String _hyphenateAs(String word, List<int> positions) {
     var s = word.split('');
     for (var p in positions.reversed) {
@@ -185,6 +187,8 @@ class Semola {
     return s.join();
   }
 
+  /// Adds a user-define exception to the engine. The exception must
+  /// be written as to include hyphenation dashes (for example, "pom-pie-re")
   static void addException(String hyphenation) {
     _exceptions.addAll({
       hyphenation.replaceAll('-', '').toUpperCase().trim():
@@ -192,10 +196,12 @@ class Semola {
     });
   }
 
+  /// Clears user-define exceptions
   static void clearExceptions() {
     _exceptions.clear();
   }
 
+  /// Initializes the built-in exceptions
   static void _initBuiltInExceptions() {
     if (_builtInExceptions.isEmpty) {
       const exceptions = [
@@ -214,6 +220,9 @@ class Semola {
     }
   }
 
+  /// Hyphenates an input word and returns a list of syllables.
+  /// User-defined exceptions are processed first, followed by built-in
+  /// exceptions. 
   static List<String> hyphenate(String word) {
     _initBuiltInExceptions();
     if (word.contains(_spaces)) {
