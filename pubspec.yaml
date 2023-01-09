@@ -1,7 +1,7 @@
 name: semola
 description: An hyphenation engine for the italian language.
 version: 0.0.1
-homepage: https://github.com/slashdotted/semola-dart
+homepage: https://github.com/slashdotted/semola-flutter
 
 environment:
   sdk: '>=2.18.6 <3.0.0'
