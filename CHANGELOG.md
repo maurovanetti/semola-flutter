@@ -5,3 +5,7 @@
 ## 0.0.2
 
 * Add example and improve documentation
+
+## 0.0.3
+
+* Add getExceptions and getBuiltinExceptions

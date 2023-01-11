@@ -196,6 +196,21 @@ class Semola {
     });
   }
 
+  /// Returns the list of current user-defined exceptions
+  static List<String> getExceptions() {
+    return _exceptions.keys.map((exception) {
+      return _hyphenateAs(exception, _exceptions[exception.toUpperCase()]!);
+    }).toList();
+  }
+
+  /// Returns the list of current built-in exceptions
+  static List<String> getBuiltinExceptions() {
+    return _builtInExceptions.keys.map((exception) {
+      return _hyphenateAs(
+          exception, _builtInExceptions[exception.toUpperCase()]!);
+    }).toList();
+  }
+
   /// Clears user-define exceptions
   static void clearExceptions() {
     _exceptions.clear();
@@ -222,7 +237,7 @@ class Semola {
 
   /// Hyphenates an input word and returns a list of syllables.
   /// User-defined exceptions are processed first, followed by built-in
-  /// exceptions. 
+  /// exceptions.
   static List<String> hyphenate(String word) {
     _initBuiltInExceptions();
     if (word.contains(_spaces)) {

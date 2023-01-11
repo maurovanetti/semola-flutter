@@ -1,9 +1,8 @@
 name: semola
 description: >-
-  An hyphenation engine for the italian language. This package provides an alternative to other engines
-  that might provide unsatisfactory results. The engine is able to hyphenate single words and can 
-  be easily configured with user-defined exceptions.
-version: 0.0.2
+  An hyphenation engine for the italian language. The engine is able to hyphenate 
+  single words and can be easily configured with user-defined exceptions.
+version: 0.0.3
 homepage: https://github.com/slashdotted/semola-flutter
 
 environment:

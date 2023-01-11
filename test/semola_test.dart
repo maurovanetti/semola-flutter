@@ -56,9 +56,17 @@ void main() {
   });
 
   test('Test with user exceptions', () {
+    assert(Semola.getBuiltinExceptions().isNotEmpty);
+    assert(Semola.getBuiltinExceptions().contains("PI-O-LO"));
+    assert(Semola.getExceptions().isEmpty);
     Semola.addException("p-i-o-v-r-a");
+    assert(Semola.getExceptions().isNotEmpty);
     expect(Semola.hyphenate("piovra"), ["p", "i", "o", "v", "r", "a"]);
+    expect(Semola.getExceptions(), ["P-I-O-V-R-A"]);
+    Semola.addException("p-i-o-v-r-e");
+    expect(Semola.getExceptions(), ["P-I-O-V-R-A", "P-I-O-V-R-E"]);
     Semola.clearExceptions();
+    assert(Semola.getExceptions().isEmpty);
     expect(Semola.hyphenate("piovra"), ["pio", "vra"]);
   });
 }
