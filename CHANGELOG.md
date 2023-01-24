@@ -9,3 +9,7 @@
 ## 0.0.3
 
 * Add getExceptions and getBuiltinExceptions
+
+## 0.0.4
+
+* Remove Flutter dependency
