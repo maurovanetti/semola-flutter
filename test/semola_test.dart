@@ -46,6 +46,12 @@ void main() {
     expect(Semola.hyphenate(r"pompiere..."), ["pom", "pie", "re..."]);
     expect(Semola.hyphenate(r"lunghissimo..."), ["lun", "ghis", "si", "mo..."]);
     expect(Semola.hyphenate(r"per..."), ["per..."]);
+    expect(Semola.hyphenate(r"è"), ["è"]);
+    expect(Semola.hyphenate("è"), ["è"]);
+    expect(Semola.hyphenate(r"à"), ["à"]);
+    expect(Semola.hyphenate("à"), ["à"]);
+    expect(Semola.hyphenate(r"ì"), ["ì"]);
+    expect(Semola.hyphenate("ì"), ["ì"]);
   });
 
   test('Test with built-in exceptions', () {
@@ -53,6 +59,12 @@ void main() {
     expect(Semola.hyphenate("pioli"), ["pi", "o", "li"]);
     expect(Semola.hyphenate("piovra..."), ["pio", "vra..."]);
     expect(Semola.hyphenate("pioli..."), ["pi", "o", "li..."]);
+    expect(Semola.hyphenate(r"è"), ["è"]);
+    expect(Semola.hyphenate("è"), ["è"]);
+    expect(Semola.hyphenate(r"à"), ["à"]);
+    expect(Semola.hyphenate("à"), ["à"]);
+    expect(Semola.hyphenate(r"ì"), ["ì"]);
+    expect(Semola.hyphenate("ì"), ["ì"]);
   });
 
   test('Test with user exceptions', () {
@@ -68,5 +80,11 @@ void main() {
     Semola.clearExceptions();
     assert(Semola.getExceptions().isEmpty);
     expect(Semola.hyphenate("piovra"), ["pio", "vra"]);
+    expect(Semola.hyphenate(r"è"), ["è"]);
+    expect(Semola.hyphenate("è"), ["è"]);
+    expect(Semola.hyphenate(r"à"), ["à"]);
+    expect(Semola.hyphenate("à"), ["à"]);
+    expect(Semola.hyphenate(r"ì"), ["ì"]);
+    expect(Semola.hyphenate("ì"), ["ì"]);
   });
 }
