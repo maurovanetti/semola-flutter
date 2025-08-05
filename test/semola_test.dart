@@ -67,6 +67,148 @@ void main() {
     expect(Semola.hyphenate("ì"), ["ì"]);
   });
 
+  group('Tests to remove redundant rules from v0.0.4', () {
+    test('Test with "-nst-", "-rst-", "-sch-"', () {
+      expect(Semola.hyphenate("consta"), ["con", "sta"]);
+      expect(Semola.hyphenate("interstizio"), ["in", "ter", "sti", "zio"]);
+      expect(Semola.hyphenate("raschiare"), ["ra", "schia", "re"]);
+      expect(Semola.hyphenate("farseschi"), ["far", "se", "schi"]);
+      expect(Semola.hyphenate("fiaschi"), ["fia", "schi"]);
+    });
+  });
+
+  group('Tests with problematic cases, unsupported by v0.0.4', () {
+    test('Test with "-agia", "-agie"', () {
+      expect(Semola.hyphenate("magia"), ["ma", "gi", "a"]);
+      expect(Semola.hyphenate("magie"), ["ma", "gi", "e"]);
+      expect(Semola.hyphenate("magico"), ["ma", "gi", "co"]);
+      expect(Semola.hyphenate("aerofagia"), ["a", "e", "ro", "fa", "gi", "a"]);
+      expect(Semola.hyphenate("acquaragia"), ["ac", "qua", "ra", "gia"]);
+    });
+
+    test('Test with "-egia", "-egie", "-egio"', () {
+      expect(Semola.hyphenate("paraplegia"), ["pa", "ra", "ple", "gi", "a"]);
+      expect(Semola.hyphenate("nostalgia"), ["no", "stal", "gi", "a"]);
+      expect(Semola.hyphenate("nostalgie"), ["no", "stal", "gi", "e"]);
+      expect(Semola.hyphenate("bolgia"), ["bol", "gia"]);
+      expect(Semola.hyphenate("bolge"), ["bol", "ge"]);
+      expect(Semola.hyphenate("ciliegie"), ["ci", "lie", "gie"]);
+      expect(Semola.hyphenate("egregio"), ["e", "gre", "gio"]);
+      expect(Semola.hyphenate("egregia"), ["e", "gre", "gia"]);
+      expect(Semola.hyphenate("elegia"), ["e", "le", "gi", "a"]);
+      expect(Semola.hyphenate("elegiaco"), ["e", "le", "gi", "a", "co"]);
+      // https://it.wikipedia.org/wiki/Lelegi
+      expect(Semola.hyphenate("lelegie"), ["le", "le", "gie"]);
+      expect(Semola.hyphenate("strategia"), ["stra", "te", "gi", "a"]);
+    });
+
+    test('Test with "-ogia", "-ogio"', () {
+      expect(Semola.hyphenate("orologiaio"), ["o", "ro", "lo", "gia", "io"]);
+      expect(Semola.hyphenate("mogia"), ["mo", "gia"]);
+      expect(Semola.hyphenate("mogio"), ["mo", "gio"]);
+      expect(Semola.hyphenate("frogia"), ["fro", "gia"]);
+      expect(Semola.hyphenate("biologia"), ["bio", "lo", "gi", "a"]);
+      expect(Semola.hyphenate("demagogia"), ["de", "ma", "go", "gi", "a"]);
+    });
+
+    test('Test with "-tria-"', () {
+      expect(Semola.hyphenate("patria"), ["pa", "tria"]);
+      expect(Semola.hyphenate("patrie"), ["pa", "trie"]);
+      expect(Semola.hyphenate("triangolo"), ["tri", "an", "go", "lo"]);
+      expect(Semola.hyphenate("diottria"), ["diot", "tri", "a"]);
+      expect(Semola.hyphenate("diottrie"), ["diot", "tri", "e"]);
+      expect(Semola.hyphenate("rimpatriata"), ["rim", "pa", "tria", "ta"]);
+      expect(Semola.hyphenate("espatriava"), ["e", "spa", "tria", "va"]);
+    });
+
+    test('Test with many short "-ia" ("-ìa") words', () {
+      // These words are all to be hyphenated as "i-a" and not "ia"
+      List<String> words = [
+        "afachia",
+        "afasia",
+        "afrasia",
+        "agenzia",
+        "ageusia",
+        "agnosia",
+        "agrafia",
+        "albagia",
+        "algesia",
+        "ametria",
+        "anergia",
+        "anosmia",
+        "anossia",
+        "aplasia",
+        "aplisia",
+        "aritmia",
+        "armeria",
+        "armonia",
+        "atrofia",
+        "balogia",
+        "bareria",
+        "baronia",
+        "bigamia",
+        "binomia",
+        "biopsia",
+        "bonomia",
+        "canonia",
+        "cereria",
+        "cerusia",
+        "coieria",
+        "cokeria",
+        "colemia",
+        "diceria",
+        "difonia",
+        "digamia",
+        "dilalia",
+        "dilogia",
+        "dipodia",
+        "cirusia",
+        "scia",
+        "stantia",
+        "pazzia",
+        "razzia",
+        "follia",
+        "mia",
+        "sia",
+        "zia",
+        "via",
+        "ovovia",
+        "spia",
+      ];
+      for (var word in words) {
+        final hyphenated = Semola.hyphenate(word);
+        expect(hyphenated.last, "a",
+            reason: '"$word" was hyphenated as "${hyphenated.join('-')}"');
+      }
+    });
+
+    test('Test with many short "-ia" ("-ja") words', () {
+      // These words are all to be hyphenated as "ia" and not "i-a"
+      List<String> words = [
+        "marchia",
+        "ostia",
+        "macchia",
+        "coscia",
+        "begonia",
+        "camelia",
+        "copia",
+        "coppia",
+        "scoria",
+        "macerie",
+        "cazzia",
+        "smacchia",
+        "rotaia",
+        "mannaia",
+        "sedia",
+      ];
+      for (var word in words) {
+        final hyphenated = Semola.hyphenate(word);
+        expect(hyphenated.last, isNot("a"),
+            reason: '"$word" was hyphenated as "${hyphenated.join('-')}"');
+      }
+    });
+  });
+
   test('Test with user exceptions', () {
     assert(Semola.getBuiltinExceptions().isNotEmpty);
     assert(Semola.getBuiltinExceptions().contains("PI-O-LO"));
