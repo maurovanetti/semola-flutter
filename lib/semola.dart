@@ -184,6 +184,9 @@ class Semola {
         r"|[^m]m|ps|la-l|a-ch|cra-z|man-z|u-s|o-s|a-f|r-ra-g|er-g|o-d|t|v"
         r")i([ae]) /\1i-\2 /Ig"),
 
+    // I plurali e i verbi in -ii hanno la prima i accentata.
+    Substitute.fromSedExpr(r"s/ii /i-i /Ig"),
+
     Substitute.fromSedExpr(r"s/ia-c(a|o|i|he) /i-a-c\1 /Ig"),
 
 // *************************************************
@@ -285,6 +288,17 @@ class Semola {
         "man-gro-via/e",
         "o-stia/e",
         "be-go-nia/e",
+        "i-o",
+        "sci-o/i",
+        "fot-ti-o/i",
+        "schi-fi-o/i",
+        "di-o",
+        "mi-o",
+        "fi-o",
+        "pi-o/i",
+        "ri-o/i",
+        "fru-sci-o/i",
+        "scal-pic-ci-o/i",
       ];
       for (var e in exceptions) {
         int firstVariantEnd = e.indexOf('/');
