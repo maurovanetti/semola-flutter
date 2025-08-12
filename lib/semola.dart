@@ -189,6 +189,10 @@ class Semola {
 
     Substitute.fromSedExpr(r"s/ia-c(a|o|i|he) /i-a-c\1 /Ig"),
 
+    // Gli infissi "-ch-" e "-gh-" sono fusi alla vocale successiva, non a
+    // quella precedente.
+    Substitute.fromSedExpr(r"s/([aeiouàèìòùáéíóú])([cg]h[eièìéí])/\1-\2/Ig"),
+
 // *************************************************
 // Ripulitura finale
 // *************************************************

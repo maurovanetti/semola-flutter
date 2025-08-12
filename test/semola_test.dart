@@ -215,6 +215,14 @@ void main() {
       expect(Semola.hyphenate("diurna"), ["di", "ur", "na"]);
       expect(Semola.hyphenate("quotidiano"), ["quo", "ti", "dia", "no"]);
     });
+
+    test('Test with words like "VChV-', () {
+      expect(Semola.hyphenate("aghi"), ["a", "ghi"]);
+      expect(Semola.hyphenate("oche"), ["o", "che"]);
+      expect(Semola.hyphenate("echi"), ["e", "chi"]);
+      expect(Semola.hyphenate("acheo"), ["a", "che", "o"]);
+      expect(Semola.hyphenate("achee"), ["a", "che", "e"]);
+    });
   });
 
   test('Test with user exceptions', () {
