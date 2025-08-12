@@ -301,6 +301,7 @@ class Semola {
         "scal-pic-ci-o/i",
         "ca-lo-ri-a/e",
         "ri-a/e",
+        "u-to-pi-a/e",
       ];
       for (var e in exceptions) {
         int firstVariantEnd = e.indexOf('/');
