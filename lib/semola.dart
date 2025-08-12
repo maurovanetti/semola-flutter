@@ -302,6 +302,11 @@ class Semola {
         "ca-lo-ri-a/e",
         "ri-a/e",
         "u-to-pi-a/e",
+        "di-a-ria/e",
+        "di-a-rio",
+        "di-a-ri",
+        "di-ur-no/i",
+        "di-ur-na/e",
       ];
       for (var e in exceptions) {
         int firstVariantEnd = e.indexOf('/');

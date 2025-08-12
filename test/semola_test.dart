@@ -207,6 +207,14 @@ void main() {
             reason: '"$word" was hyphenated as "${hyphenated.join('-')}"');
       }
     });
+
+    test('Test with words derived from Latin "dies"', () {
+      expect(Semola.hyphenate("diario"), ["di", "a", "rio"]);
+      expect(Semola.hyphenate("diaria"), ["di", "a", "ria"]);
+      expect(Semola.hyphenate("diurno"), ["di", "ur", "no"]);
+      expect(Semola.hyphenate("diurna"), ["di", "ur", "na"]);
+      expect(Semola.hyphenate("quotidiano"), ["quo", "ti", "dia", "no"]);
+    });
   });
 
   test('Test with user exceptions', () {
