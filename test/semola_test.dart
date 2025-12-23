@@ -223,6 +223,30 @@ void main() {
       expect(Semola.hyphenate("acheo"), ["a", "che", "o"]);
       expect(Semola.hyphenate("achee"), ["a", "che", "e"]);
     });
+
+    test('Test with "ri-"', () {
+      expect(Semola.hyphenate("rianimare"), ["ri", "a", "ni", "ma", "re"]);
+      expect(Semola.hyphenate("riaversi"), ["ri", "a", "ver", "si"]);
+      expect(Semola.hyphenate("riarmo"), ["ri", "ar", "mo"]);
+      expect(Semola.hyphenate("abbarriamo"), ["ab", "bar", "ria", "mo"]);
+      expect(Semola.hyphenate("abbeveriamo"), ["ab", "be", "ve", "ria", "mo"]);
+      expect(Semola.hyphenate("ria"), ["ri", "a"]);
+      expect(Semola.hyphenate("rio"), ["ri", "o"]);
+      expect(Semola.hyphenate("rii"), ["ri", "i"]);
+      expect(Semola.hyphenate("riattivo"), ["ri", "at", "ti", "vo"]);
+      expect(Semola.hyphenate("riedizione"), ["ri", "e", "di", "zio", "ne"]);
+      expect(Semola.hyphenate("riuscito"), ["riu", "sci", "to"]);
+      expect(Semola.hyphenate("riutilizziamolo"),
+          ["ri", "u", "ti", "liz", "zia", "mo", "lo"]);
+    });
+
+    test('Test with edge cases and detected bugs', () {
+      expect(Semola.hyphenate("isba"), ["i", "sba"]);
+      expect(Semola.hyphenate("isbe"), ["i", "sbe"]);
+      expect(Semola.hyphenate("isbaglio"), ["i", "sba", "glio"]);
+      // Get the most favourable interpretation
+      expect(Semola.hyphenate("circuito"), ["cir", "cu", "i", "to"]);
+    });
   });
 
   test('Test with user exceptions', () {
@@ -244,5 +268,18 @@ void main() {
     expect(Semola.hyphenate("à"), ["à"]);
     expect(Semola.hyphenate(r"ì"), ["ì"]);
     expect(Semola.hyphenate("ì"), ["ì"]);
+  });
+
+  test('Test with versions', () {
+    expect(Semola.hyphenate("isba", version: 5), ["isba"]);
+    expect(Semola.hyphenate("isba", version: 6), ["i", "sba"]);
+    expect(Semola.hyphenate("isba"), Semola.hyphenate("isba", version: 6));
+
+    expect(
+        Semola.hyphenate("riadattare", version: 5), ["ria", "dat", "ta", "re"]);
+    expect(Semola.hyphenate("riadattare", version: 6),
+        ["ri", "a", "dat", "ta", "re"]);
+    expect(Semola.hyphenate("riadattare"),
+        Semola.hyphenate("riadattare", version: 6));
   });
 }
