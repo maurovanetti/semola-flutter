@@ -290,15 +290,21 @@ void main() {
   });
 
   test('Test with versions', () {
-    expect(Semola.hyphenate("isba", version: 5), ["isba"]);
     expect(Semola.hyphenate("isba", version: 6), ["i", "sba"]);
-    expect(Semola.hyphenate("isba"), Semola.hyphenate("isba", version: 6));
-
-    expect(
-        Semola.hyphenate("riadattare", version: 5), ["ria", "dat", "ta", "re"]);
     expect(Semola.hyphenate("riadattare", version: 6),
         ["ri", "a", "dat", "ta", "re"]);
-    expect(Semola.hyphenate("riadattare"),
-        Semola.hyphenate("riadattare", version: 6));
+
+    expect(Semola.hyphenate("obli", version: 6), ["obli"]);
+    expect(Semola.hyphenate("oblio", version: 6), ["oblio"]);
+    expect(Semola.hyphenate("uguagli", version: 6), ["u", "guagli"]);
+    expect(Semola.hyphenate("obli", version: 7), ["o", "bli"]);
+    expect(Semola.hyphenate("oblio", version: 7), ["o", "bli", "o"]);
+    expect(Semola.hyphenate("uguagli", version: 7), ["u", "gua", "gli"]);
+
+    // Test that the default version is the latest one
+    // When a new version is released, update this test with one of the latest
+    // added words/rules
+    expect(
+        Semola.hyphenate("uguagli"), Semola.hyphenate("uguagli", version: 7));
   });
 }

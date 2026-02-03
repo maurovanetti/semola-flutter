@@ -141,9 +141,12 @@ class Semola {
 
 // Da: https://scriveregrammaticando.it/2019/12/30/la-divisione-in-sillabe-le-regole-fondamentali/
 // Vocale seguita da un gruppo di due o più consonanti che può stare anche a inizio parola
-    Substitute.fromSedExpr(
-        r"s/([aeiouàèìòùáéíóú])-?(g-?n|b-?r|c-?r|c-?l|d-?r|f-?l|f-?r|g-?r|m-?n|p-?n|p-?s|p-?r|p-?t|s-?c|s-?f|s-?n|s-?m|s-?p|s-?q|s-?r|s-?t|s-?v|t-?r|t-?l)/\1-\2/Ig"),
-    VersionedSubstitute.fromSedExpr(r"s/([aeiouàèìòùáéíóú])-?(b-?l|g-?l)/\1-\2/Ig", minVersion: 7),
+    VersionedSubstitute.fromSedExpr(
+        r"s/([aeiouàèìòùáéíóú])-?(g-?n|b-?r|c-?r|c-?l|d-?r|f-?l|f-?r|g-?r|m-?n|p-?n|p-?s|p-?r|p-?t|s-?c|s-?f|s-?n|s-?m|s-?p|s-?q|s-?r|s-?t|s-?v|t-?r|t-?l)/\1-\2/Ig",
+        maxVersion: 6),
+    VersionedSubstitute.fromSedExpr(
+        r"s/([aeiouàèìòùáéíóú])-?(g-?n|b-?l|b-?r|c-?r|c-?l|d-?r|f-?l|f-?r|g-?l|g-?r|m-?n|p-?n|p-?s|p-?r|p-?t|s-?c|s-?f|s-?n|s-?m|s-?p|s-?q|s-?r|s-?t|s-?v|t-?r|t-?l)/\1-\2/Ig",
+        minVersion: 7),
 
 // Da: https://www.comunicaresulweb.com/scrittura/divisione-in-sillabe-sillabazione/
 // Gruppi di consonanti che producono un suono unico
@@ -199,9 +202,8 @@ class Semola {
 
     // Le parole che iniziano per "ri-" seguite da vocale si dividono dopo il
     // prefisso.
-    VersionedSubstitute.fromSedExpr(r"s/ -ri([aeiouàèìòùáéíóú])/ ri-\1/Ig",
-        minVersion: 6),
-    VersionedSubstitute.fromSedExpr(r"s/ ri-u-sc/ riu-sc/Ig", minVersion: 6),
+    Substitute.fromSedExpr(r"s/ -ri([aeiouàèìòùáéíóú])/ ri-\1/Ig"),
+    Substitute.fromSedExpr(r"s/ ri-u-sc/ riu-sc/Ig"),
 
 // *************************************************
 // Ripulitura finale
