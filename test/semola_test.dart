@@ -223,6 +223,25 @@ void main() {
       expect(Semola.hyphenate("acheo"), ["a", "che", "o"]);
       expect(Semola.hyphenate("achee"), ["a", "che", "e"]);
     });
+
+    test('Test with words with unusual "-VCC-"', () {
+      expect(Semola.hyphenate("pepsina"), ["pe", "psi", "na"]);
+      expect(Semola.hyphenate("sbagli"), ["sba", "gli"]);
+      expect(Semola.hyphenate("uguali"), ["u", "gua", "li"]);
+      expect(Semola.hyphenate("eguali"), ["e", "gua", "li"]);
+      expect(Semola.hyphenate("eguaglianza"), ["e", "gua", "glian", "za"]);
+      expect(Semola.hyphenate("guaglione"), ["gua", "glio", "ne"]);
+      expect(Semola.hyphenate("uguagli"), ["u", "gua", "gli"]);
+      expect(Semola.hyphenate("uguaglia"), ["u", "gua", "glia"]);
+      expect(Semola.hyphenate("uguagliai"), ["u", "gua", "gliai"]);
+      expect(Semola.hyphenate("uguaglianza"), ["u", "gua", "glian", "za"]);
+      expect(Semola.hyphenate("obli"), ["o", "bli"]);
+      expect(Semola.hyphenate("obla"), ["o", "bla"]);
+      expect(Semola.hyphenate("obliqui"), ["o", "bli", "qui"]);
+      expect(Semola.hyphenate("obliqua"), ["o", "bli", "qua"]);
+      expect(Semola.hyphenate("oblii"), ["o", "bli", "i"]);
+      expect(Semola.hyphenate("oblio"), ["o", "bli", "o"]);
+    });
   });
 
   test('Test with user exceptions', () {

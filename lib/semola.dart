@@ -139,7 +139,7 @@ class Semola {
 // Da: https://scriveregrammaticando.it/2019/12/30/la-divisione-in-sillabe-le-regole-fondamentali/
 // Vocale seguita da un gruppo di due o più consonanti che può stare anche a inizio parola
     Substitute.fromSedExpr(
-        r"s/([aeiouàèìòùáéíóú])-?(g-?n|b-?r|c-?r|c-?l|d-?r|f-?l|f-?r|g-?r|m-?n|p-?n|p-?s|p-?r|p-?t|s-?c|s-?f|s-?n|s-?m|s-?p|s-?q|s-?r|s-?t|s-?v|t-?r|t-?l)/\1-\2/Ig"),
+        r"s/([aeiouàèìòùáéíóú])-?(g-?n|b-?l|b-?r|c-?r|c-?l|d-?r|f-?l|f-?r|g-?l|g-?r|m-?n|p-?n|p-?s|p-?r|p-?t|s-?c|s-?f|s-?n|s-?m|s-?p|s-?q|s-?r|s-?t|s-?v|t-?r|t-?l)/\1-\2/Ig"),
 
 // Da: https://www.comunicaresulweb.com/scrittura/divisione-in-sillabe-sillabazione/
 // Gruppi di consonanti che producono un suono unico
@@ -311,6 +311,7 @@ class Semola {
         "di-a-ri",
         "di-ur-no/i",
         "di-ur-na/e",
+        "o-bli-o/i",
       ];
       for (var e in exceptions) {
         int firstVariantEnd = e.indexOf('/');
