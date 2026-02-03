@@ -38,6 +38,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
 import 'dart:collection';
 
+import 'package:semola/versioned_substitute.dart';
 import 'package:substitute/substitute.dart';
 
 /// Semola base class, meant to be used statically.
@@ -47,6 +48,8 @@ class Semola {
   static final HashMap<String, List<int>> _builtInExceptions = HashMap();
   static final RegExp _nonWordStart = RegExp(r'^\W+');
   static final RegExp _nonWordEnd = RegExp(r'\W+$');
+
+  static int? _initializationVersion;
 
   static final List<Substitute> _substitutions = [
 //
@@ -139,7 +142,8 @@ class Semola {
 // Da: https://scriveregrammaticando.it/2019/12/30/la-divisione-in-sillabe-le-regole-fondamentali/
 // Vocale seguita da un gruppo di due o più consonanti che può stare anche a inizio parola
     Substitute.fromSedExpr(
-        r"s/([aeiouàèìòùáéíóú])-?(g-?n|b-?l|b-?r|c-?r|c-?l|d-?r|f-?l|f-?r|g-?l|g-?r|m-?n|p-?n|p-?s|p-?r|p-?t|s-?c|s-?f|s-?n|s-?m|s-?p|s-?q|s-?r|s-?t|s-?v|t-?r|t-?l)/\1-\2/Ig"),
+        r"s/([aeiouàèìòùáéíóú])-?(g-?n|b-?r|c-?r|c-?l|d-?r|f-?l|f-?r|g-?r|m-?n|p-?n|p-?s|p-?r|p-?t|s-?c|s-?f|s-?n|s-?m|s-?p|s-?q|s-?r|s-?t|s-?v|t-?r|t-?l)/\1-\2/Ig"),
+    VersionedSubstitute.fromSedExpr(r"s/([aeiouàèìòùáéíóú])-?(b-?l|g-?l)/\1-\2/Ig", minVersion: 7),
 
 // Da: https://www.comunicaresulweb.com/scrittura/divisione-in-sillabe-sillabazione/
 // Gruppi di consonanti che producono un suono unico
@@ -192,6 +196,12 @@ class Semola {
     // Gli infissi "-ch-" e "-gh-" sono fusi alla vocale successiva, non a
     // quella precedente.
     Substitute.fromSedExpr(r"s/([aeiouàèìòùáéíóú])([cg]h[eièìéí])/\1-\2/Ig"),
+
+    // Le parole che iniziano per "ri-" seguite da vocale si dividono dopo il
+    // prefisso.
+    VersionedSubstitute.fromSedExpr(r"s/ -ri([aeiouàèìòùáéíóú])/ ri-\1/Ig",
+        minVersion: 6),
+    VersionedSubstitute.fromSedExpr(r"s/ ri-u-sc/ riu-sc/Ig", minVersion: 6),
 
 // *************************************************
 // Ripulitura finale
@@ -256,9 +266,10 @@ class Semola {
   }
 
   /// Initializes the built-in exceptions
-  static void _initBuiltInExceptions() {
-    if (_builtInExceptions.isEmpty) {
-      const exceptions = [
+  static void _initBuiltInExceptions([int? version]) {
+    if (_builtInExceptions.isEmpty || version != _initializationVersion) {
+      _builtInExceptions.clear();
+      final exceptions = [
         "li-u-to/i",
         "pi-o-lo/i",
         "pio-vra/e",
@@ -311,7 +322,18 @@ class Semola {
         "di-a-ri",
         "di-ur-no/i",
         "di-ur-na/e",
-        "o-bli-o/i",
+        "i-sba/e",
+        "i-sba-glio",
+        "i-sba-gli",
+        "cir-cu-i-ta/e",
+        "cir-cu-i-to/i",
+
+        // When releasing new versions, move these exceptions to the unversioned
+        // block above, update the version number and place new versioned
+        // exceptions in this block below.
+        if (version == null || version >= 7) ...[
+          "o-bli-o/i",
+        ]
       ];
       for (var e in exceptions) {
         int firstVariantEnd = e.indexOf('/');
@@ -335,8 +357,9 @@ class Semola {
   /// Hyphenates an input word and returns a list of syllables.
   /// User-defined exceptions are processed first, followed by built-in
   /// exceptions.
-  static List<String> hyphenate(String word) {
-    _initBuiltInExceptions();
+  static List<String> hyphenate(String word, {int? version}) {
+    _initBuiltInExceptions(version);
+    VersionedSubstitute.currentVersion = version;
     if (word.contains(_spaces)) {
       throw "$word is not a single word";
     }
